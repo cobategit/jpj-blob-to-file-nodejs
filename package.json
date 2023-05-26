@@ -1,0 +1,48 @@
+{
+  "name": "jpj-blob-to-file-nodejs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./dist/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "clean": "trash dist/",
+    "build": "npm run clean && tsc -w",
+    "server": "nodemon -e js -w dist dist/app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^5.0.4"
+  },
+  "dependencies": {
+    "@fastify/accepts": "^4.1.0",
+    "@fastify/cors": "^8.2.1",
+    "@fastify/csrf-protection": "^6.3.0",
+    "@fastify/express": "^2.3.0",
+    "@fastify/helmet": "^10.1.1",
+    "@fastify/static": "^6.10.1",
+    "@jpj-common/module": "^1.0.9",
+    "@supercharge/promise-pool": "^2.4.0",
+    "@types/cli-progress": "^3.11.0",
+    "@types/cors": "^2.8.13",
+    "@types/dotenv": "^8.2.0",
+    "@types/mysql": "^2.15.21",
+    "@types/node": "^20.2.3",
+    "@types/node-cron": "^3.0.7",
+    "basic-ftp": "^5.0.3",
+    "cli-progress": "^3.12.0",
+    "cors": "^2.8.5",
+    "date-fns": "^2.30.0",
+    "dotenv": "^16.0.3",
+    "fastify": "^4.17.0",
+    "mysql": "^2.18.1",
+    "mysql2": "^3.3.2",
+    "node-cron": "^3.0.2",
+    "pino": "^8.14.1",
+    "trash-cli": "^5.0.0",
+    "winston": "^3.8.2",
+    "winston-daily-rotate-file": "^4.7.1",
+    "x-xss-protection": "^2.0.0"
+  }
+}
