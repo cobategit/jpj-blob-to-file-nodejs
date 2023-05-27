@@ -11,8 +11,8 @@ export class BlobToFile {
             fs.writeFileSync(pathFile + `/${folder}/${id}.png`, base64Img, { encoding: 'base64' })
             LoggersApp.info('Success file blob created', `${id}.jpg`)
             return true
-        } catch (_) {
-            LoggersApp.warn('Failed file blob created', `${id}.jpg`)
+        } catch (error) {
+            LoggersApp.warn(`Failed file blob created - ${error}`, `${id}.jpg`)
             throw false
         }
     }
