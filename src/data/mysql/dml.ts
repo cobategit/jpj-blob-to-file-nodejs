@@ -4,19 +4,17 @@ import { mysqlConn } from "../../configs";
 export class DataManipulationLanguage {
 
     public async execute(query: string, options: any[]): Promise<any> {
-        let connMysql = await mysqlConn()
+        const connMysql = await mysqlConn()
 
         try {
-            connMysql.beginTransaction()
+            await connMysql.query('START TRANSACTION')
             const res = await connMysql.query(`${query}`, options)
-            await connMysql.commit()
-            await connMysql.end()
-
+            await connMysql.query('COMMIT')
             return res
         } catch (error) {
-            await connMysql.rollback()
+            await connMysql.query('ROLLBACK')
             LoggersApp.error('Failed mysql query', error)
-            throw new AppError(500, false, 'Failed mysql query', '500')
+            throw new AppError(500, false, `Failed mysql query - ${error}`, '500')
         }
     }
 }

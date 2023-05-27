@@ -18,7 +18,7 @@ export class UploadFileToFtp {
             return true
         } catch (error) {
             LoggersApp.warn('Failed send file ftp', error)
-            throw new AppError(500, false, `Failed send file ftp - ${error}`, '500')
+            return false
         }
     }
 }

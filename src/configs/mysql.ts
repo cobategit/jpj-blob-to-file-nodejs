@@ -1,4 +1,4 @@
-import mysql2 from 'mysql2'
+import mysql2 from 'mysql2/promise'
 
 export async function mysqlConn() {
     let pool = mysql2.createPool({
@@ -17,5 +17,5 @@ export async function mysqlConn() {
         keepAliveInitialDelay: 0
     })
 
-    return pool.promise()
+    return pool
 }
