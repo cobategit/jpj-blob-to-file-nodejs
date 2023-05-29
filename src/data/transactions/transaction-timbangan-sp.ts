@@ -8,7 +8,7 @@ export class TransactionTimbanganSp {
     public static async findAll(statusFileFtp: number = 0) {
         try {
             const [rows, fields] = await this.dql.execute(
-                `select slip, pic, pic_truck from ${process.env.TABLE_TRANSACTIONTIMBANGANSP} where sync_file_ftp = ? order by transaction_id asc`,
+                `select slip, pic, pic_truck from ${process.env.TABLE_TRANSACTIONTIMBANGANSP} where sync_file_ftp = ? order by transaction_id asc limit 20`,
                 [statusFileFtp]
             )
 
@@ -22,8 +22,8 @@ export class TransactionTimbanganSp {
     public static async updateStatusSendFileFtp(data: any, statusFileFtp: number = 0) {
         try {
             const res = await this.dml.execute(
-                `update ${process.env.TABLE_TRANSACTIONTIMBANGANSP} set sync_file_ftp = ?, pic = ?, pic_truck = ?, pic_file = ?, pic_truck_file = ? where sync_file_ftp = ?`,
-                [data.sync_file_ftp, data.pic, data.pic_truck, data.pic_file, data.pic_truck_file, statusFileFtp]
+                `update ${process.env.TABLE_TRANSACTIONTIMBANGANSP} set sync_file_ftp = ?, pic = ?, pic_truck = ?, pic_file = ?, pic_truck_file = ? where slip = ? and sync_file_ftp = ?`,
+                [data.sync_file_ftp, data.pic, data.pic_truck, data.pic_file, data.pic_truck_file, data.slip, statusFileFtp]
             )
 
             return res

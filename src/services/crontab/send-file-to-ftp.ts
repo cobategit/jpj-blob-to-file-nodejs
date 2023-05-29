@@ -18,21 +18,23 @@ import PromisePool from "@supercharge/promise-pool"
     });
     let cnt = 1;
 
-    await PromisePool.withConcurrency(100).for(res).process(async (data: any, index: any, pool: any) => {
-        const convertFileDO = await BlobToFile.execute(data[index]['slip'], data[index]['pic'], 'img', 'transaction/do')
-        const convertFileTruck = await BlobToFile.execute(data[index]['slip'], data[index]['pic_truck'], 'img', 'transaction/truck')
+    await PromisePool.withConcurrency(10000).for(res).process(async (data: any, index: any, pool: any) => {
+        let dataUpdate = {}
+        const convertFileDO = await BlobToFile.execute(data['slip'], data['pic'], 'img', 'transaction/do')
+        const convertFileTruck = await BlobToFile.execute(data['slip'], data['pic_truck'], 'img', 'transaction/truck')
 
         if (convertFileDO && convertFileTruck) {
-            const uploadFileFtpDo = await UploadFileToFtp.execute(`${path.join(process.cwd(), `public/img/transaction/do/${data[index]['slip']}.png`)}`, `${data[index]['slip']}.png`, `storage/img/pic/test/do`)
-            const uploadFileFtpTruck = await UploadFileToFtp.execute(`${path.join(process.cwd(), `public/img/transaction/truck/${data[index]['slip']}.png`)}`, `${data[index]['slip']}.png`, `storage/img/pic/test/truck`)
+            const uploadFileFtpDo = await UploadFileToFtp.execute(`${path.join(process.cwd(), `public/img/transaction/do/${data['slip']}.png`)}`, `${data['slip']}.png`, `storage/img/pic/nodejs/do`)
+            const uploadFileFtpTruck = await UploadFileToFtp.execute(`${path.join(process.cwd(), `public/img/transaction/truck/${data['slip']}.png`)}`, `${data['slip']}.png`, `storage/img/pic/nodejs/truck`)
 
             if (uploadFileFtpDo && uploadFileFtpTruck) {
-                const dataUpdate = {
+                dataUpdate = {
+                    slip: data['slip'],
                     sync_file_ftp: 1,
-                    pic: res[0]['pic'],
-                    pic_truck: res[0]['pic_truck'],
-                    pic_file: process.env.FTP_URL + `/storage/img/pic/test/do/` + `${data[index]['slip']}.png`,
-                    pic_truck_file: process.env.FTP_URL + `/storage/img/pic/test/truck/` + `${data[index]['slip']}.png`,
+                    pic: data['pic'],
+                    pic_truck: data['pic_truck'],
+                    pic_file: process.env.FTP_URL + `/storage/img/pic/test/do/` + `${data['slip']}.png`,
+                    pic_truck_file: process.env.FTP_URL + `/storage/img/pic/test/truck/` + `${data['slip']}.png`,
                 }
                 const updateFileFtp = await TransactionTimbanganSp.updateStatusSendFileFtp(dataUpdate)
                 LoggersApp.info('Update sync file ftp success', updateFileFtp[0].changedRows)
