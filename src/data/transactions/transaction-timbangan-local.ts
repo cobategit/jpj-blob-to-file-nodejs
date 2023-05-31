@@ -19,11 +19,11 @@ export class TransactionTimbanganLocal {
         }
     }
 
-    public static async findFileNotYetSendToRemote(statusFileDb: number = 0) {
+    public static async findFileNotYetSendToRemote(statusFileFtp: number = 1, statusFileDb: number = 0) {
         try {
             const [rows, fields] = await this.dql.execute(
-                `select slip, pic_file_nas, pic_truck_file_nas from ${process.env.TABLE_TRANSACTIONTIMBANGAN} where sync_file_db = ? order by transaction_id asc limit 20`,
-                [statusFileDb]
+                `select slip, pic_file_nas, pic_truck_file_nas from ${process.env.TABLE_TRANSACTIONTIMBANGAN} where sync_file_db = ? and sync_file_db = ? order by transaction_id asc limit 20`,
+                [statusFileFtp, statusFileDb]
             )
 
             return rows
