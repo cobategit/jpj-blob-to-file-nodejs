@@ -16,7 +16,7 @@ export class UploadFileToFtp {
             await clientFtp.ensureDir(directoryRemote)
             await clientFtp.uploadFrom(localFile, remoteFile)
             clientFtp.close()
-            LoggersApp.info('Success send file ftp created', `${localFile}`)
+            // LoggersApp.info('Success send file ftp created', `${localFile}`)
             return true
         } catch (error) {
             LoggersApp.warn('Failed send file ftp', error)
