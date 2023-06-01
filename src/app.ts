@@ -9,8 +9,6 @@ import fastifyAccepts from '@fastify/accepts'
 import fastifyStatic from '@fastify/static'
 import path from 'path'
 import { ApiResponse, LoggersApp } from '@jpj-common/module'
-import cluster from 'cluster'
-import os from 'os'
 
 export const app = async () => {
     dotenv.config()
@@ -47,31 +45,13 @@ export const app = async () => {
 
     server.setErrorHandler(ApiResponse.errorCatch)
 
-    const numCpus = os.cpus().length
-    if (cluster.isPrimary) {
-        console.log(`Master ${process.pid} is running`);
-
-        // Fork workers.
-        for (let i = 0; i < numCpus; i++) {
-            cluster.fork();
+    server.listen({ port: Number(process.env.PORT) }, function (err, address) {
+        if (err) {
+            server.log.error(err)
+            process.exit(1)
         }
-
-        cluster.on('exit', (worker, code, signal) => {
-            console.log(`worker ${worker.process.pid} died`);
-        });
-    } else {
-        // Workers can share any TCP connection
-        // In this case it is an HTTP server
-        server.listen({ port: Number(process.env.PORT) }, function (err, address) {
-            if (err) {
-                server.log.error(err)
-                process.exit(1)
-            }
-            server.log.info(`server listening on ${address}`)
-        })
-
-        console.log(`Worker ${process.pid} started`);
-    }
+        server.log.info(`server listening on ${address}`)
+    })
 }
 
 app()

@@ -14,12 +14,12 @@ export const taskBlobToFile = cronNode.schedule(
 )
 
 export const tasksendFileToDbRemote = cronNode.schedule(
-    `5,8,11,14,17,20,23,26,29,32,35,38,41,44,47,50,53,56 * * * *`,
+    `2,5,8,11,14,17,20,23,26,29,32,35,38,41,44,47,50,53,56 * * * *`,
     () => {
         if (shelljs.exec(`node ${path.join(__dirname, './../../services/crontab/send-file-inventory-to-db-remote.js')}`).code !== 0) {
             console.log(`terjadi kesalahan cron job convert blob to file and send to ftp storage`)
         }
-        console.log(`schedule convert blob to file and send to ftp storage running...`)
+        console.log(`schedule insert file to db remote transaction img remote running...`)
     },
     { scheduled: true, timezone: 'Asia/Jakarta' }
 )

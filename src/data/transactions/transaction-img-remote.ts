@@ -22,7 +22,7 @@ export class TransactionImgRemote {
     public static async insertFileTransactionInventoryFromLocal(data: any) {
         try {
             const res = await this.dml.execute(
-                `insert into ${process.env.TABLE_TRANSACTION_IMG} (slip_no, doc_url, ticket_url)
+                `insert into ${process.env.TABLE_TRANSACTION_IMG} (slip, doc_url, ticket_url)
                 VALUES(?,?,?)`,
                 [data?.slip, data?.doc_url, data?.ticket_url]
             )
