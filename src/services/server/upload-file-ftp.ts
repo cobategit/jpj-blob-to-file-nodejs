@@ -10,7 +10,8 @@ export class UploadFileToFtp {
             await clientFtp.access({
                 host: process.env.FTP_HOST,
                 user: process.env.FTP_USERNAME,
-                password: process.env.FTP_PASSWORD
+                password: process.env.FTP_PASSWORD,
+                port: Number(process.env.FTP_PORT)
             })
 
             await clientFtp.ensureDir(directoryRemote)
