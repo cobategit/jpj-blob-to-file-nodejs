@@ -56,7 +56,7 @@ export class TransactionTimbanganLocal {
 
             return res
         } catch (error) {
-            LoggersApp.warn(`Failed update status send file ftp`, error)
+            LoggersApp.warn(`Failed update status send file db`, error)
             return error
         }
     }

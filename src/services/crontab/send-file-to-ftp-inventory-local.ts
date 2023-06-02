@@ -25,8 +25,8 @@ import PromisePool from "@supercharge/promise-pool"
             const convertFileTruck = await BlobToFile.execute(data['slip'], data['pic_truck'], 'img', 'transaction/inventory/truck')
 
             if (convertFileDO && convertFileTruck) {
-                const uploadFileFtpDo = await UploadFileToFtp.execute(`${path.join(process.cwd(), `public/img/transaction/inventory/do/${data['slip']}.png`)}`, `${data['slip']}.png`, `storage/img/pic/nodejs/inventory/do`)
-                const uploadFileFtpTruck = await UploadFileToFtp.execute(`${path.join(process.cwd(), `public/img/transaction/inventory/truck/${data['slip']}.png`)}`, `${data['slip']}.png`, `storage/img/pic/nodejs/inventory/truck`)
+                const uploadFileFtpDo = await UploadFileToFtp.execute(`${path.join(process.cwd(), `public/img/transaction/inventory/do/${data['slip']}.png`)}`, `${data['slip']}.png`, `storage/img/pic/nodejs/inventory/${process.env.STOCKPILE}/do`)
+                const uploadFileFtpTruck = await UploadFileToFtp.execute(`${path.join(process.cwd(), `public/img/transaction/inventory/truck/${data['slip']}.png`)}`, `${data['slip']}.png`, `storage/img/pic/nodejs/inventory/${process.env.STOCKPILE}/truck`)
 
                 if (uploadFileFtpDo && uploadFileFtpTruck) {
                     dataUpdate = {
@@ -36,8 +36,8 @@ import PromisePool from "@supercharge/promise-pool"
                         pic_truck: null,
                         pic_file_local: process.env.URL_FILE + `/img/transaction/inventory/do/` + `${data['slip']}.png`,
                         pic_truck_file_local: process.env.URL_FILE + `/img/transaction/inventory/truck/` + `${data['slip']}.png`,
-                        pic_file_nas: process.env.FTP_URL + `/storage/img/pic/nodejs/inventory/do/` + `${data['slip']}.png`,
-                        pic_truck_file_nas: process.env.FTP_URL + `/storage/img/pic/nodejs/inventory/truck/` + `${data['slip']}.png`,
+                        pic_file_nas: process.env.FTP_URL + `/storage/img/pic/nodejs/inventory/${process.env.STOCKPILE}/do/` + `${data['slip']}.png`,
+                        pic_truck_file_nas: process.env.FTP_URL + `/storage/img/pic/nodejs/inventory/${process.env.STOCKPILE}/truck/` + `${data['slip']}.png`,
                     }
                     const updateFileFtp = await TransactionTimbanganLocal.updateStatusSendFileFtp(dataUpdate)
                     // LoggersApp.info('Update sync file ftp success', updateFileFtp[0].changedRows)

@@ -5,20 +5,6 @@ export class TransactionImgRemote {
     private static dql: DataQueryLanguageRemote = new DataQueryLanguageRemote()
     private static dml: DataManipulationLanguageRemote = new DataManipulationLanguageRemote()
 
-    public static async findAll() {
-        try {
-            const [rows, fields] = await this.dql.execute(
-                `select slip, pic, pic_truck from ${process.env.TABLE_TRANSACTION_IMG}`,
-                []
-            )
-
-            return rows
-        } catch (error) {
-            LoggersApp.error('Failed find all transaction timbangan sp', error)
-            return false
-        }
-    }
-
     public static async insertFileTransactionInventoryFromLocal(data: any) {
         try {
             const res = await this.dml.execute(
@@ -29,7 +15,7 @@ export class TransactionImgRemote {
 
             return res
         } catch (error) {
-            LoggersApp.warn(`Failed update status send file ftp`, error)
+            LoggersApp.warn(`Failed insert status send file db remote`, error)
             return error
         }
     }
