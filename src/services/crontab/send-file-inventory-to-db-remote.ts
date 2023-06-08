@@ -1,16 +1,15 @@
 import { LoggersApp } from "@jpj-common/module"
 import { TransactionImgRemote, TransactionTimbanganLocal } from "../../data"
 import dotenv from 'dotenv'
-import { BlobToFile } from "../../handlers"
-import { UploadFileToFtp } from "../server"
 import path from 'path'
 import cliProgress from 'cli-progress'
 import PromisePool from "@supercharge/promise-pool"
 
 (async () => {
     const bar = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
-    dotenv.config()
+    dotenv.config({ path: path.join(__dirname, './../../../.env') })
     LoggersApp.configureLogger()
+    LoggersApp.info('Execute send data from local to db remote and update status local', {})
 
     const res = await TransactionTimbanganLocal.findFileNotYetSendToRemote()
     bar.start(res.length, 0, {

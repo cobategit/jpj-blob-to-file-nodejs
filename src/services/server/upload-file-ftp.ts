@@ -4,7 +4,7 @@ import { Client } from 'basic-ftp'
 export class UploadFileToFtp {
 
     public static async execute(localFile: string, remoteFile: string, directoryRemote: string) {
-        const clientFtp = new Client()
+        const clientFtp = new Client(0)
         clientFtp.ftp.verbose = true
         try {
             await clientFtp.access({

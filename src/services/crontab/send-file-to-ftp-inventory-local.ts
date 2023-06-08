@@ -9,8 +9,9 @@ import PromisePool from "@supercharge/promise-pool"
 
 (async () => {
     const bar = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
-    dotenv.config()
+    dotenv.config({ path: path.join(__dirname, './../../../.env') })
     LoggersApp.configureLogger()
+    LoggersApp.info('Execute file convert blob and send to nas storage', {})
 
     const res = await TransactionTimbanganLocal.findAll()
     bar.start(res.length, 0, {
