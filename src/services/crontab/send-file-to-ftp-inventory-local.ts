@@ -33,8 +33,8 @@ import PromisePool from "@supercharge/promise-pool"
                     dataUpdate = {
                         slip: data['slip'],
                         sync_file_ftp: 1,
-                        pic: data['pic'],
-                        pic_truck: data['pic_truck'],
+                        pic: null,
+                        pic_truck: null,
                         pic_file_local: process.env.URL_FILE + `/img/transaction/inventory/do/` + `${data['slip']}.png`,
                         pic_truck_file_local: process.env.URL_FILE + `/img/transaction/inventory/truck/` + `${data['slip']}.png`,
                         pic_file_nas: process.env.FTP_URL + `/storage/img/pic/nodejs/inventory/${process.env.STOCKPILE}/do/` + `${data['slip']}.png`,
