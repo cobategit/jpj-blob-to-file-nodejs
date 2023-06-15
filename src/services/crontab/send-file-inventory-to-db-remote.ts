@@ -11,7 +11,7 @@ import PromisePool from "@supercharge/promise-pool"
     LoggersApp.configureLogger()
     LoggersApp.info('Execute send data from local to db remote and update status local', {})
 
-    const res = await TransactionTimbanganLocal.findFileNotYetSendToRemote()
+    const res = await TransactionTimbanganLocal.findFileNotYetSendToRemote(1, 0)
     bar.start(res.length, 0, {
         speed: '125'
     });
@@ -19,21 +19,16 @@ import PromisePool from "@supercharge/promise-pool"
 
     if (res.length > 0) {
         await PromisePool.withConcurrency(100).for(res).process(async (data: any, index: any, pool: any) => {
-            let dataInsert = {}
-            dataInsert = {
-                slip: data['slip'],
-                ticket_url: data['pic_truck_file_nas'],
-                doc_url: data['pic_file_nas']
-            }
-            const insert = await TransactionImgRemote.insertFileTransactionInventoryFromLocal(dataInsert)
+            const existsSlip = await TransactionImgRemote.findOne(data['slip'])
 
-            if (insert[0].insertId) {
-                let dataUpdateLocal = {}
-                dataUpdateLocal = {
-                    sync_file_db: 1,
-                    slip: data['slip']
-                }
-                await TransactionTimbanganLocal.updateStatusSendFileDb(dataUpdateLocal)
+            if (existsSlip.length == 0) {
+                const dataInsert = new Map<string, any>()
+                dataInsert.set('data', {
+                    slip: data['slip'],
+                    ticket_url: data['pic_truck_file_nas'],
+                    doc_url: data['pic_file_nas']
+                })
+                await TransactionImgRemote.insertFileTransactionInventoryFromLocal(dataInsert.get('data'))
             }
 
             let tmpDate: any = new Date()

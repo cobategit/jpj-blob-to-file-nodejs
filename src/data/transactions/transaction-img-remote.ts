@@ -1,22 +1,43 @@
 import { AppError, LoggersApp } from "@jpj-common/module";
 import { DataManipulationLanguageRemote, DataQueryLanguageRemote } from "../mysql";
+import { TransactionTimbanganLocal } from "./transaction-timbangan-local";
 
 export class TransactionImgRemote {
     private static dql: DataQueryLanguageRemote = new DataQueryLanguageRemote()
     private static dml: DataManipulationLanguageRemote = new DataManipulationLanguageRemote()
-
     public static async insertFileTransactionInventoryFromLocal(data: any) {
         try {
-            const res = await this.dml.execute(
+            await this.dml.execute(
                 `insert into ${process.env.TABLE_TRANSACTION_IMG} (slip, doc_url, ticket_url)
                 VALUES(?,?,?)`,
                 [data?.slip, data?.doc_url, data?.ticket_url]
             )
 
-            return res
+            const objUpdateTransactionLocal = new Map<string, any>()
+            objUpdateTransactionLocal.set('data', {
+                sync_file_db: 1,
+                slip: data.slip
+            })
+            await TransactionTimbanganLocal.updateStatusSendFileDb(objUpdateTransactionLocal.get('data'), 0)
+
+            return true
         } catch (error) {
             LoggersApp.warn(`Failed insert status send file db remote`, error)
-            return error
+            throw error
+        }
+    }
+
+    public static async findOne(slip: any) {
+        try {
+            const [rows, fields] = await this.dql.execute(
+                `select * from ${process.env.TABLE_TRANSACTION_IMG} where slip = ? limit 1`,
+                [slip]
+            )
+
+            return rows
+        } catch (error) {
+            LoggersApp.warn(`Failed find one transaction remote`, error)
+            throw error
         }
     }
 }
