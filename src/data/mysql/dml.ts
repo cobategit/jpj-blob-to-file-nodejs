@@ -10,6 +10,7 @@ export class DataManipulationLanguage {
             await connMysql.query('START TRANSACTION')
             const res = await connMysql.query(`${query}`, options)
             await connMysql.query('COMMIT')
+            await connMysql.end()
             return res
         } catch (error) {
             await connMysql.query('ROLLBACK')
@@ -28,6 +29,7 @@ export class DataManipulationLanguageRemote {
             await connMysql.query('START TRANSACTION')
             const res = await connMysql.query(`${query}`, options)
             await connMysql.query('COMMIT')
+            await connMysql.end()
             return res
         } catch (error) {
             await connMysql.query('ROLLBACK')

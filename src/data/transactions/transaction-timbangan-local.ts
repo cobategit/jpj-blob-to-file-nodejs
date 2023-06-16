@@ -50,8 +50,8 @@ export class TransactionTimbanganLocal {
     public static async updateStatusSendFileDb(data: any, statusFileDb: number = 0) {
         try {
             const res = await this.dml.execute(
-                `update ${process.env.TABLE_TRANSACTIONTIMBANGAN} set sync_file_db = ? where slip = ? and sync_file_db = ?`,
-                [data?.sync_file_db, data?.slip, statusFileDb]
+                `update ${process.env.TABLE_TRANSACTIONTIMBANGAN} set sync_file_db = ? where slip IN(?) and sync_file_db = ?`,
+                [1, data, statusFileDb]
             )
 
             return res

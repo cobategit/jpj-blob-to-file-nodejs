@@ -8,6 +8,7 @@ export class DataQueryLanguage {
 
         try {
             const res = await connMysql.query(`${query}`, options)
+            await connMysql.end()
 
             return res
         } catch (error) {
@@ -24,6 +25,7 @@ export class DataQueryLanguageRemote {
 
         try {
             const res = await connMysql.query(`${query}`, options)
+            await connMysql.end()
 
             return res
         } catch (error) {

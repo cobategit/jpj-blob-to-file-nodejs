@@ -9,16 +9,17 @@ export class TransactionImgRemote {
         try {
             await this.dml.execute(
                 `insert into ${process.env.TABLE_TRANSACTION_IMG} (slip, doc_url, ticket_url)
-                VALUES(?,?,?)`,
-                [data?.slip, data?.doc_url, data?.ticket_url]
+                VALUES ?`,
+                [data]
             )
 
-            const objUpdateTransactionLocal = new Map<string, any>()
-            objUpdateTransactionLocal.set('data', {
-                sync_file_db: 1,
-                slip: data.slip
-            })
-            await TransactionTimbanganLocal.updateStatusSendFileDb(objUpdateTransactionLocal.get('data'), 0)
+            let dataUpdateTransactionLocal: any[] = []
+            await Promise.all(
+                data.map((val: any) => {
+                    dataUpdateTransactionLocal.push(val[0])
+                })
+            )
+            await TransactionTimbanganLocal.updateStatusSendFileDb(dataUpdateTransactionLocal)
 
             return true
         } catch (error) {
