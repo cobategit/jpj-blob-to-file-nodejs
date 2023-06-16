@@ -19,7 +19,7 @@ export class TransactionImgRemote {
                     dataUpdateTransactionLocal.push(val[0])
                 })
             )
-            await TransactionTimbanganLocal.updateStatusSendFileDb(dataUpdateTransactionLocal)
+            await TransactionTimbanganLocal.updateStatusSendFileDb(dataUpdateTransactionLocal, 0)
 
             return true
         } catch (error) {
