@@ -22,28 +22,30 @@ import PromisePool from "@supercharge/promise-pool"
     if (res.length > 0) {
         await PromisePool.withConcurrency(100).for(res).process(async (data: any, index: any, pool: any) => {
             let dataUpdate = {}
-            const convertFileDO = await BlobToFile.execute(data['slip'], data['pic'], 'img', 'transaction/inventory/do')
-            const convertFileTruck = await BlobToFile.execute(data['slip'], data['pic_truck'], 'img', 'transaction/inventory/truck')
+            // const convertFileDO = await BlobToFile.execute(data['slip'], data['pic'], 'img', 'transaction/inventory/do')
+            // const convertFileTruck = await BlobToFile.execute(data['slip'], data['pic_truck'], 'img', 'transaction/inventory/truck')
 
-            if (convertFileDO && convertFileTruck) {
-                const uploadFileFtpDo = await UploadFileToFtp.execute(`${path.join(process.cwd(), `public/img/transaction/inventory/do/${data['slip']}.png`)}`, `${data['slip']}.png`, `storage/img/pic/nodejs/inventory/${process.env.STOCKPILE}/do`)
-                const uploadFileFtpTruck = await UploadFileToFtp.execute(`${path.join(process.cwd(), `public/img/transaction/inventory/truck/${data['slip']}.png`)}`, `${data['slip']}.png`, `storage/img/pic/nodejs/inventory/${process.env.STOCKPILE}/truck`)
+            // if (convertFileDO && convertFileTruck) {
+            // const uploadFileFtpDo = await UploadFileToFtp.execute(`${path.join(process.cwd(), `public/img/transaction/inventory/do/${data['slip']}.png`)}`, `${data['slip']}.png`, `storage/img/pic/nodejs/inventory/${process.env.STOCKPILE}/do`)
+            // const uploadFileFtpTruck = await UploadFileToFtp.execute(`${path.join(process.cwd(), `public/img/transaction/inventory/truck/${data['slip']}.png`)}`, `${data['slip']}.png`, `storage/img/pic/nodejs/inventory/${process.env.STOCKPILE}/truck`)
+            const uploadFileFtpDo = await UploadFileToFtp.execute(`C:/gambar_timbangan/do/${data['slip']}.png`, `${data['slip']}.png`, `storage/img/pic/nodejs/inventory/${process.env.STOCKPILE}/do`)
+            const uploadFileFtpTruck = await UploadFileToFtp.execute(`C:/gambar_timbangan/truck/${data['slip']}.png`, `${data['slip']}.png`, `storage/img/pic/nodejs/inventory/${process.env.STOCKPILE}/truck`)
 
-                if (uploadFileFtpDo && uploadFileFtpTruck) {
-                    dataUpdate = {
-                        slip: data['slip'],
-                        sync_file_ftp: 1,
-                        pic: null,
-                        pic_truck: null,
-                        pic_file_local: process.env.URL_FILE + `/img/transaction/inventory/do/` + `${data['slip']}.png`,
-                        pic_truck_file_local: process.env.URL_FILE + `/img/transaction/inventory/truck/` + `${data['slip']}.png`,
-                        pic_file_nas: process.env.FTP_URL + `/storage/img/pic/nodejs/inventory/${process.env.STOCKPILE}/do/` + `${data['slip']}.png`,
-                        pic_truck_file_nas: process.env.FTP_URL + `/storage/img/pic/nodejs/inventory/${process.env.STOCKPILE}/truck/` + `${data['slip']}.png`,
-                    }
-                    const updateFileFtp = await TransactionTimbanganLocal.updateStatusSendFileFtp(dataUpdate)
-                    // LoggersApp.info('Update sync file ftp success', updateFileFtp[0].changedRows)
+            if (uploadFileFtpDo && uploadFileFtpTruck) {
+                dataUpdate = {
+                    slip: data['slip'],
+                    sync_file_ftp: 1,
+                    // pic: null,
+                    // pic_truck: null,
+                    // pic_file_local: process.env.URL_FILE + `/img/transaction/inventory/do/` + `${data['slip']}.png`,
+                    // pic_truck_file_local: process.env.URL_FILE + `/img/transaction/inventory/truck/` + `${data['slip']}.png`,
+                    pic_file_nas: process.env.FTP_URL + `/storage/img/pic/nodejs/inventory/${process.env.STOCKPILE}/do/` + `${data['slip']}.png`,
+                    pic_truck_file_nas: process.env.FTP_URL + `/storage/img/pic/nodejs/inventory/${process.env.STOCKPILE}/truck/` + `${data['slip']}.png`,
                 }
+                const updateFileFtp = await TransactionTimbanganLocal.updateStatusSendFileFtp(dataUpdate)
+                // LoggersApp.info('Update sync file ftp success', updateFileFtp[0].changedRows)
             }
+            // }
 
             let tmpDate: any = new Date()
             let end: any = tmpDate - start,

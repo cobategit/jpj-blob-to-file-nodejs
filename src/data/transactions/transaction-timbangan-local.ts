@@ -8,7 +8,7 @@ export class TransactionTimbanganLocal {
     public static async findAll(statusFileFtp: number = 0) {
         try {
             const [rows, fields] = await this.dql.execute(
-                `select slip, pic, pic_truck from ${process.env.TABLE_TRANSACTIONTIMBANGAN} where sync_file_ftp = ? order by transaction_id asc limit 20`,
+                `select slip, pic, pic_truck from ${process.env.TABLE_TRANSACTIONTIMBANGAN} where sync_file_ftp = ? order by transaction_id asc limit 100`,
                 [statusFileFtp]
             )
 
@@ -36,8 +36,8 @@ export class TransactionTimbanganLocal {
     public static async updateStatusSendFileFtp(data: any, statusFileFtp: number = 0) {
         try {
             const res = await this.dml.execute(
-                `update ${process.env.TABLE_TRANSACTIONTIMBANGAN} set sync_file_ftp = ?, pic = ?, pic_truck = ?, pic_file_nas = ?, pic_truck_file_nas = ?, pic_file_local = ?, pic_truck_file_local = ? where slip = ? and sync_file_ftp = ?`,
-                [data.sync_file_ftp, data.pic, data.pic_truck, data.pic_file_nas, data.pic_truck_file_nas, data.pic_file_local, data.pic_truck_file_local, data.slip, statusFileFtp]
+                `update ${process.env.TABLE_TRANSACTIONTIMBANGAN} set sync_file_ftp = ?, pic_file_nas = ?, pic_truck_file_nas = ?, pic_file_local = ?, pic_truck_file_local = ? where slip = ? and sync_file_ftp = ?`,
+                [data.sync_file_ftp, data.pic_file_nas, data.pic_truck_file_nas, data.pic_file_local, data.pic_truck_file_local, data.slip, statusFileFtp]
             )
 
             return res
