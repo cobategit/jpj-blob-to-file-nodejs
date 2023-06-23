@@ -13,7 +13,7 @@ export const taskBlobToFile = cronNode.schedule(
 
         setTimeout(() => {
             return shelljs.exit(1)
-        }, 80000)
+        }, 1200000)
 
     },
     { scheduled: true, timezone: 'Asia/Jakarta' }
@@ -30,7 +30,7 @@ export const tasksendFileToDbRemote = cronNode.schedule(
 
         setTimeout(() => {
             return shelljs.exit(1)
-        }, 80000)
+        }, 1200000)
 
     },
     { scheduled: true, timezone: 'Asia/Jakarta' }

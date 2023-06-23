@@ -8,7 +8,7 @@ export class TransactionTimbanganLocal {
     public static async findAll(statusFileFtp: number = 0) {
         try {
             const [rows, fields] = await this.dql.execute(
-                `select slip, pic, pic_truck from ${process.env.TABLE_TRANSACTIONTIMBANGAN} where sync_file_ftp = ? order by transaction_id asc limit 100`,
+                `select slip, pic, pic_truck from ${process.env.TABLE_TRANSACTIONTIMBANGAN} where sync_file_ftp = ? and pic_file_local is not null and pic_truck_file_local is not null order by transaction_id asc limit 50`,
                 [statusFileFtp]
             )
 
