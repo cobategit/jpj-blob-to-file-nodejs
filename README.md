@@ -14,6 +14,7 @@ this is a services cronjobs for convert blob to file, save to local storage and 
 - create folder public->img->transaction->inventory->do & public->img->transaction->inventory->truck
 - alter table transaction_timbangan ( pc timbangan ): pic_file_local text, pic_file_nas text, pic_truck_file_local text, pic_truck_file_nas text, sync_file_ftp tinyint(1) default 0, sync_file_db tinyint(1) default 0
 - buka terminal windows run administrator
+- build project => npm run build
 - arahkan ke project, jalankan perintah => pm2 start dist/app.js --name="url sevices api", setelah itu => pm2 save
 - jalankan perintah => pm2 start dist\handlers\scheduler\blob-to-file.js, setelah itu => pm2 save
 - buat file .bat pada directory C:\ => %windir%\system32\CMD.exe /k "pm2 resurrect", kemudian buat task scheduler untuk menjalakan file .bat ketika pc startup### Services
@@ -32,6 +33,7 @@ this is a services cronjobs for convert blob to file, save to local storage and 
 - create folder public->img->transaction->inventory->do & public->img->transaction->inventory->truck
 - alter table transaction_timbangan ( pc timbangan ): pic_file_local text, pic_file_nas text, pic_truck_file_local text, pic_truck_file_nas text, sync_file_ftp tinyint(1) default 0, sync_file_db tinyint(1) default 0
 - buka terminal windows run administrator
+- build project => npm run build
 - arahkan ke project, jalankan perintah => pm2 start dist/app.js --name="url sevices api", setelah itu => pm2 save
 - jalankan perintah => pm2 start dist\handlers\scheduler\blob-to-file.js, setelah itu => pm2 save
 - buat file .bat pada directory C:\ => %windir%\system32\CMD.exe /k "pm2 resurrect", kemudian buat task scheduler untuk menjalakan file .bat ketika pc startup
