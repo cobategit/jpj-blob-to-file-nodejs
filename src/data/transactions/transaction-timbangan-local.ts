@@ -36,8 +36,8 @@ export class TransactionTimbanganLocal {
     public static async updateStatusSendFileFtp(data: any, statusFileFtp: number = 0) {
         try {
             const res = await this.dml.execute(
-                `update ${process.env.TABLE_TRANSACTIONTIMBANGAN} set sync_file_ftp = ?, pic_file_nas = ?, pic_truck_file_nas = ?, pic_file_local = ?, pic_truck_file_local = ? where slip = ? and sync_file_ftp = ?`,
-                [data.sync_file_ftp, data.pic_file_nas, data.pic_truck_file_nas, data.pic_file_local, data.pic_truck_file_local, data.slip, statusFileFtp]
+                `update ${process.env.TABLE_TRANSACTIONTIMBANGAN} set sync_file_ftp = ?, pic_file_nas = ?, pic_truck_file_nas = ? where slip = ? and sync_file_ftp = ?`,
+                [data.sync_file_ftp, data.pic_file_nas, data.pic_truck_file_nas, data.slip, statusFileFtp]
             )
 
             return res
